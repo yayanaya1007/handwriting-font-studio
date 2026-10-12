@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f4ed">
+  <meta name="description" content="내가 쓴 문장 속 한글을 모아 나만의 손글씨 폰트로 만들어 보세요.">
+  <title>손글씨 공방 — 내 문장을 내 글씨체로</title>
+  <script src="https://cdn.jsdelivr.net/npm/opentype.js@1.3.4/dist/opentype.min.js" defer></script>
+  <style>
+    :root{--paper:#f7f4ed;--card:#fffefa;--ink:#20231f;--muted:#777b73;--line:#e7e2d8;--green:#365c4a;--green-soft:#e9f0e9;--orange:#dc8b58;--yellow:#f0c86d;--shadow:0 18px 50px rgba(43,47,38,.07);--serif:"Nanum Myeongjo","Batang",serif;--sans:Pretendard,"Noto Sans KR","Malgun Gothic",sans-serif}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55}button,input,textarea{font:inherit}button{cursor:pointer}a{color:inherit}.shell{max-width:1180px;margin:auto;padding:26px 28px 72px}.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 0 25px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:10px;font-weight:750;letter-spacing:-.04em}.brand-mark{display:grid;place-items:center;width:36px;height:36px;background:var(--green);color:#fff;border-radius:12px;font-family:var(--serif);font-size:21px}.top-note{font-size:12px;color:var(--muted)}
+    .hero{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:30px;padding:58px 0 34px}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--green);font-size:12px;font-weight:750;letter-spacing:.08em;text-transform:uppercase}.eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange)}h1{font-family:var(--serif);font-size:clamp(36px,5vw,58px);font-weight:500;letter-spacing:-.06em;line-height:1.2;margin:14px 0}.hero p{color:#62665e;max-width:570px;margin:0;font-size:15px}.hero-art{position:relative;min-height:168px;display:flex;align-items:center;justify-content:center;background:#e9eee6;border-radius:22px;overflow:hidden}.hero-art:before,.hero-art:after{content:"";position:absolute;border:1px solid rgba(54,92,74,.15);border-radius:50%;width:220px;height:220px}.hero-art:after{width:290px;height:290px}.paper-note{position:relative;z-index:1;transform:rotate(-4deg);padding:17px 24px;background:#fffefa;box-shadow:0 9px 25px rgba(32,35,31,.12);font-family:var(--serif);font-size:27px;color:#375b49}.paper-note small{display:block;text-align:right;margin-top:6px;color:#a0a294;font-family:var(--sans);font-size:10px;letter-spacing:.08em}
+    .layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(270px,.75fr);align-items:start;gap:22px}.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}.main-panel{padding:24px}.side-panel{padding:22px;position:sticky;top:18px}.section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}.section-head h2{font-size:18px;letter-spacing:-.04em;margin:0}.section-head p{color:var(--muted);font-size:12px;margin:4px 0 0}.step-badge{display:grid;place-items:center;flex:0 0 30px;height:30px;border-radius:50%;background:var(--green-soft);color:var(--green);font-weight:800;font-size:12px}.field-label{display:flex;justify-content:space-between;gap:12px;font-size:12px;font-weight:700;margin:0 0 8px}.field-hint{font-size:11px;color:var(--muted);font-weight:450}.textarea{width:100%;min-height:104px;resize:vertical;padding:14px 15px;border:1px solid var(--line);border-radius:12px;outline:0;background:#fff;color:var(--ink);line-height:1.7}.textarea:focus,input:focus{border-color:#89a493;box-shadow:0 0 0 3px rgba(54,92,74,.1)}.row{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:11px}.btn{border:0;border-radius:10px;padding:10px 15px;font-weight:750;font-size:12px;transition:.18s transform,.18s background}.btn:hover{transform:translateY(-1px)}.btn-primary{background:var(--green);color:#fff}.btn-primary:hover{background:#294a3a}.btn-quiet{background:#f2f0e9;color:#41453e}.btn-quiet:hover{background:#e9e6dc}.btn-small{padding:7px 10px;font-size:11px}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.divider{height:1px;background:var(--line);margin:22px 0}.sentence-list{display:grid;gap:10px}.sentence-card{display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px;padding:14px 15px;background:#fff;border:1px solid var(--line);border-radius:12px}.sentence-card.active{border-color:#87a190;background:#fbfdf9}.sentence-text{font-family:var(--serif);font-size:16px;line-height:1.6;letter-spacing:-.025em}.sentence-meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px;color:var(--muted);font-size:10px}.pill{padding:3px 8px;border-radius:99px;background:#f1efe8}.pill.green{background:var(--green-soft);color:var(--green)}.mini-progress{height:4px;overflow:hidden;border-radius:99px;background:#eeeae1;margin-top:9px}.mini-progress span{display:block;height:100%;background:#73917c;border-radius:99px}.empty{padding:20px;text-align:center;background:#f6f4ee;border-radius:12px;color:var(--muted);font-size:12px}.analysis{padding:13px 14px;border-radius:12px;background:#f6f5ef;margin-top:13px}.analysis-title{font-size:11px;font-weight:800;margin-bottom:7px}.analysis-row{display:flex;align-items:flex-start;gap:10px;margin-top:6px}.analysis-row b{min-width:36px;color:var(--muted);font-size:10px}.chips{display:flex;flex-wrap:wrap;gap:4px}.chip{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 5px;border-radius:7px;background:#fff;border:1px solid #e9e5da;font-size:11px}.practice-wrap{margin-top:21px}.practice-line{display:flex;gap:7px;flex-wrap:wrap}.glyph-card{position:relative;display:grid;place-items:center;width:48px;height:56px;border:1px solid var(--line);background:#fff;border-radius:9px;color:#7c8078;font-family:var(--serif);font-size:23px;transition:.15s}.glyph-card:hover{border-color:#8ba08e;transform:translateY(-1px)}.glyph-card.done{background:var(--green-soft);border-color:#c5d7c8;color:var(--green)}.glyph-card.done:after{content:"✓";position:absolute;right:3px;top:2px;font:9px var(--sans);color:var(--green)}.glyph-card.current{outline:2px solid var(--orange);outline-offset:1px}.glyph-helper{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:11px;margin:12px 0}.editor{margin-top:18px;border:1px solid #dcd8cd;border-radius:14px;padding:16px;background:#f9f7f1}.editor[hidden]{display:none}.editor-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.editor-title{font-size:13px;font-weight:800}.editor-title strong{font-family:var(--serif);font-size:23px;color:var(--green);margin:0 4px}.canvas-wrap{position:relative;background:#fffefa;border:1px solid #ddd8cc;border-radius:10px;overflow:hidden}.canvas-wrap:before,.canvas-wrap:after{content:"";position:absolute;pointer-events:none;z-index:1;border-color:#ece8de;border-style:dashed}.canvas-wrap:before{left:0;right:0;top:50%;border-width:1px 0 0}.canvas-wrap:after{top:0;bottom:0;left:50%;border-width:0 0 0 1px}canvas{display:block;width:100%;aspect-ratio:2.4;touch-action:none;cursor:crosshair}.editor-tools{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}.editor-note{font-size:10px;color:var(--muted)}.font-row{display:flex;gap:9px;align-items:end;flex-wrap:wrap}.font-row label{flex:1;min-width:190px}.text-input{width:100%;height:40px;border:1px solid var(--line);border-radius:10px;padding:0 12px;background:white;outline:0}.preview{min-height:92px;padding:17px;margin-top:12px;border-radius:12px;background:#f2f0e9;overflow-wrap:anywhere;font-family:var(--sans);font-size:23px;line-height:1.6}.preview small{display:block;margin-bottom:5px;font-family:var(--sans);font-size:10px;color:var(--muted)}.export-note{font-size:10px;color:var(--muted);margin:10px 0 0}.progress-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}.progress-head h3,.side-title{margin:0;font-size:14px;letter-spacing:-.03em}.big-stat{font-family:var(--serif);font-size:34px;color:var(--green)}.big-stat small{font:12px var(--sans);color:var(--muted)}.progressbar{height:8px;background:#eeebe2;border-radius:99px;overflow:hidden;margin:7px 0 10px}.progressbar span{display:block;width:0;height:100%;background:linear-gradient(90deg,#557b63,#9db48e);transition:width .3s}.side-caption{font-size:11px;color:var(--muted)}.side-divider{height:1px;background:var(--line);margin:18px 0}.tip{display:flex;gap:10px;margin-top:13px;font-size:11px;color:#5f645b}.tip-num{display:grid;place-items:center;flex:0 0 22px;height:22px;border-radius:50%;background:#f0eadc;color:#846746;font-weight:800;font-size:10px}.aside-callout{padding:12px;border-radius:11px;background:#f6f1e5;color:#66563d;font-size:10px;line-height:1.65}.status{min-height:18px;margin-top:7px;font-size:11px;color:var(--green)}.status.error{color:#a74637}.footer{padding-top:22px;text-align:center;color:#9b9d95;font-size:10px}.mobile-hide{display:block}
+    @media(max-width:850px){.shell{padding:18px 16px 55px}.hero{grid-template-columns:1fr;padding:40px 0 24px}.hero-art{min-height:130px}.layout{grid-template-columns:1fr}.side-panel{position:static;grid-row:1}.main-panel{padding:19px}.top-note{display:none}}
+    @media(max-width:500px){.sentence-card{grid-template-columns:1fr}.sentence-card .btn{justify-self:start}.glyph-card{width:42px;height:50px}.hero p{font-size:13px}.paper-note{font-size:23px}.section-head h2{font-size:16px}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar"><div class="brand"><span class="brand-mark">글</span><span>손글씨 공방</span></div><div class="top-note">문장으로 모으고, 내 손글씨 폰트로</div></header>
+    <section class="hero">
+      <div><div class="eyebrow">MY HANDWRITING, ONE LETTER AT A TIME</div><h1>내 문장을,<br>내 글씨체로.</h1><p>짧은 문장을 하나씩 써 보세요. 문장 속 글자를 모아 손글씨 샘플을 만들고, 다 쓴 글자로 나만의 폰트 파일을 만들 수 있어요.</p></div>
+      <div class="hero-art" aria-hidden="true"><div class="paper-note">오늘도 한 자씩<small>MY LITTLE TYPE STUDIO</small></div></div>
+    </section>
+    <div class="layout">
+      <main class="panel main-panel">
+        <section>
+          <div class="section-head"><div><h2>1. 문장을 고르세요</h2><p>제가 준비한 연습 문장이나 내가 쓰고 싶은 문장을 사용할 수 있어요.</p></div><span class="step-badge">01</span></div>
+          <label class="field-label" for="customText">내 문장 추가 <span class="field-hint">한글 글자를 자동으로 찾아요</span></label>
+          <textarea class="textarea" id="customText" placeholder="예: 오늘은 천천히 걸으며 작은 기쁨을 찾았다."></textarea>
+          <div class="row"><button class="btn btn-primary" id="addText">내 문장 담기</button><span class="field-hint">입력한 문장은 이 브라우저에만 저장돼요.</span></div>
+        </section>
+        <div class="divider"></div>
+        <section>
+          <div class="section-head"><div><h2>먼저 써 볼 문장</h2><p>아직 안 쓴 글자가 많이 들어 있는 문장을 위에 보여드려요.</p></div><button class="btn btn-quiet btn-small" id="refreshList">추천 새로 보기</button></div>
+          <div class="sentence-list" id="sentenceList"></div>
+        </section>
+        <section class="practice-wrap" id="practiceSection" hidden>
+          <div class="divider"></div>
+          <div class="section-head"><div><h2>2. 문장 속 글자를 써 주세요</h2><p>같은 글자는 한 번만 쓰면 돼요. 손으로 쓴 글자 칸을 눌러 입력하세요.</p></div><span class="step-badge">02</span></div>
+          <div class="sentence-text" id="activeSentence"></div>
+          <div class="analysis" id="analysis"></div>
+          <div class="glyph-helper"><span id="glyphProgress">0/0 글자 저장</span><span>글자 칸을 누르고 마우스·터치·펜으로 써 보세요</span></div>
+          <div class="practice-line" id="practiceLine"></div>
+          <div class="editor" id="editor" hidden>
+            <div class="editor-head"><div class="editor-title">아래 칸에 <strong id="editingGlyph"></strong>를 써 주세요</div><button class="btn btn-quiet btn-small" id="closeEditor">닫기</button></div>
+            <div class="canvas-wrap"><canvas id="pad" width="960" height="400" aria-label="손글씨 입력 칸"></canvas></div>
+            <div class="editor-tools"><div class="row" style="margin:0"><button class="btn btn-quiet btn-small" id="undoStroke">한 획 되돌리기</button><button class="btn btn-quiet btn-small" id="clearPad">다시 쓰기</button></div><div class="row" style="margin:0"><button class="btn btn-quiet btn-small" id="skipGlyph">다음 글자</button><button class="btn btn-primary btn-small" id="saveGlyph">글자 저장</button></div></div>
+            <div class="editor-note">정자체처럼 쓰지 않아도 괜찮아요. 글자 하나를 칸 안에 크게 써 주세요.</div>
+          </div>
+        </section>
+        <section id="fontSection" hidden>
+          <div class="divider"></div>
+          <div class="section-head"><div><h2>3. 폰트를 만들어요</h2><p>저장한 손글씨를 미리 보고 설치할 수 있는 파일로 내려받으세요.</p></div><span class="step-badge">03</span></div>
+          <div class="font-row"><label><span class="field-label">폰트 이름</span><input class="text-input" id="fontName" value="나의 손글씨"></label><button class="btn btn-primary" id="makeFont">폰트 파일 만들기</button></div>
+          <div class="preview" id="preview"><small>미리보기</small><span id="previewText">저장한 글씨가 여기에 보여요.</span></div>
+          <p class="export-note">이 파일에는 직접 써서 저장한 한글 글자와 띄어쓰기만 들어가요. 영문·숫자·문장부호와 아직 쓰지 않은 한글은 기본 글꼴로 표시됩니다.</p>
+          <div class="status" id="fontStatus" role="status" aria-live="polite"></div>
+        </section>
+      </main>
+      <aside class="panel side-panel">
+        <div class="progress-head"><h3>내 글씨 모으기</h3><div class="big-stat"><span id="savedCount">0</span><small> / <span id="targetCount">0</span></small></div></div>
+        <div class="progressbar"><span id="progressFill"></span></div>
+        <div class="side-caption" id="progressCaption">문장을 고르면 필요한 글자 수를 알려드려요.</div>
+        <div class="side-divider"></div>
+        <div class="side-title">이렇게 하면 돼요</div>
+        <div class="tip"><span class="tip-num">1</span><span>연습 문장이나 내 문장을 고르면, 필요한 한글 글자를 자동으로 추려요.</span></div>
+        <div class="tip"><span class="tip-num">2</span><span>문장 속 글자 칸을 눌러 한 자씩 손으로 써요. 똑같은 글자는 다시 쓰지 않아도 돼요.</span></div>
+        <div class="tip"><span class="tip-num">3</span><span>쓸 수 있는 글자가 모이면 미리 보고 폰트 파일을 내려받아요.</span></div>
+        <div class="side-divider"></div>
+        <div class="aside-callout"><b>천천히 모아도 괜찮아요.</b><br>폰트 파일에는 지금까지 직접 써서 저장한 글자만 들어갑니다. 짧은 문장부터 시작하고, 내 글씨를 더 담고 싶을 때 문장을 추가해 주세요.</div>
+      </aside>
+    </div>
+    <footer class="footer">손글씨 샘플은 이 브라우저 안에서만 처리돼요. 준비한 문장은 연습을 돕기 위한 새 문장입니다.</footer>
+  </div>
+  <script>
+    const practiceSentences = [
+      {tag:'일상',text:'오늘은 천천히 걸으며 작은 기쁨을 찾았다.'},
+      {tag:'일상',text:'따뜻한 차 한 잔과 조용한 음악이 좋다.'},
+      {tag:'자연',text:'파란 하늘 아래 노란 꽃이 바람에 흔들린다.'},
+      {tag:'자연',text:'숲속 새들은 아침마다 맑은 노래를 부른다.'},
+      {tag:'마음',text:'괜찮아, 한 걸음씩 가면 어디든 닿을 수 있어.'},
+      {tag:'마음',text:'작은 용기가 새로운 길을 열어 준다.'},
+      {tag:'일상',text:'저녁에는 가족과 둘러앉아 맛있는 밥을 먹었다.'},
+      {tag:'여행',text:'기차는 들판을 지나 바다가 있는 마을로 달렸다.'},
+      {tag:'여행',text:'낯선 골목에서 오래된 책방과 빵집을 만났다.'},
+      {tag:'계절',text:'가을 햇살은 포근하고 저녁 바람은 선선하다.'},
+      {tag:'계절',text:'첫눈이 내린 길 위에 발자국이 이어졌다.'},
+      {tag:'마음',text:'서두르지 않아도 내 속도로 자라면 된다.'},
+      {tag:'일상',text:'연필을 깎고 새 종이에 오늘의 일을 적는다.'},
+      {tag:'자연',text:'비가 그친 뒤 무지개가 마을 위에 걸렸다.'},
+      {tag:'여행',text:'작은 배를 타고 섬과 섬 사이를 건너갔다.'},
+      {tag:'마음',text:'고마운 사람에게 마음을 담아 편지를 썼다.'},
+      {tag:'계절',text:'여름밤 풀벌레 소리와 별빛이 함께 머문다.'},
+      {tag:'일상',text:'시장에는 싱싱한 채소와 달콤한 과일이 가득하다.'},
+      {tag:'자연',text:'높은 산 너머로 붉은 해가 천천히 떠오른다.'},
+      {tag:'마음',text:'서로 다른 생각도 귀 기울이면 이해할 수 있다.'},
+      {tag:'여행',text:'지도에 표시한 작은 마을을 찾아 길을 나섰다.'},
+      {tag:'계절',text:'겨울 아침 창문에 하얀 서리가 피어났다.'},
+      {tag:'일상',text:'책상 위에는 안경과 공책, 파란 펜이 놓여 있다.'},
+      {tag:'마음',text:'오늘 적은 한 문장이 내일의 나를 응원한다.'},
+      {tag:'자연',text:'달빛이 강물에 비쳐 은빛 길을 만들었다.'},
+      {tag:'여행',text:'산 아래 작은 역에서 기분 좋은 인사를 나눴다.'},
+      {tag:'일상',text:'오후 네 시쯤 창가에 앉아 쉬어 가기로 했다.'},
+      {tag:'마음',text:'함께 웃고 이야기한 시간은 오래 기억에 남는다.'},
+      {tag:'자연',text:'초록 잎 사이로 햇빛 한 줄기가 내려온다.'},
+      {tag:'계절',text:'봄비가 촉촉이 내려 새싹을 깨운다.'},
+      {tag:'일상',text:'우산을 챙기고 약속 시간보다 조금 일찍 나왔다.'},
+      {tag:'여행',text:'바람이 부는 언덕에서 멀리 도시를 바라보았다.'}
+    ];
+    const initials=['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+    const vowels=['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
+    const finals=['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
+    const stateKey='handwriting-studio-v1';
+    let state={samples:{},custom:[],fontName:'나의 손글씨'};
+    try{state={...state,...JSON.parse(localStorage.getItem(stateKey)||'{}')};}catch{}
+    let currentSentence=null,currentChars=[],activeGlyph=null,workingStrokes=[];
+    const $=id=>document.getElementById(id);
+    const saveState=()=>{localStorage.setItem(stateKey,JSON.stringify(state));updateProgress();};
+    const hangulChars=text=>[...new Set(Array.from((text||'').normalize('NFC').match(/[가-힣]/g)||[]))];
+    function splitSyllable(ch){const n=ch.codePointAt(0)-0xac00;return{l:Math.floor(n/588),v:Math.floor((n%588)/28),t:n%28};}
+    function analyse(text){const onsets=new Set(),medials=new Set(),codas=new Set();for(const ch of hangulChars(text)){const x=splitSyllable(ch);onsets.add(initials[x.l]);medials.add(vowels[x.v]);if(x.t)codas.add(finals[x.t]);}return{onsets:[...onsets],medials:[...medials],codas:[...codas]};}
+    function allSentences(){return [...practiceSentences,...state.custom.map(text=>({tag:'내 문장',text,custom:true}))];}
+    function sentenceDone(text){return hangulChars(text).every(ch=>state.samples[ch]?.length);}
+    function newCount(text){return hangulChars(text).filter(ch=>!state.samples[ch]?.length).length;}
+    function updateProgress(){const total=new Set(allSentences().flatMap(s=>hangulChars(s.text))).size;const saved=new Set(Object.keys(state.samples).filter(ch=>state.samples[ch]?.length));$('savedCount').textContent=saved.size;$('targetCount').textContent=total;$('progressFill').style.width=(total?Math.min(100,saved.size/total*100):0)+'%';$('progressCaption').textContent=total?`연습 문장에 있는 한글 ${total}자 중 ${saved.size}자를 썼어요.`:'문장을 고르면 필요한 글자 수를 알려드려요.';if($('practiceSection').hidden)$('fontSection').hidden=saved.size===0;else $('fontSection').hidden=saved.size===0;}
+    function renderSentences(){const list=$('sentenceList');const items=allSentences().map((s,i)=>({...s,index:i,need:newCount(s.text)})).sort((a,b)=>b.need-a.need||a.index-b.index);list.innerHTML='';for(const s of items){const total=hangulChars(s.text).length,done=total-s.need;const card=document.createElement('article');card.className='sentence-card'+(currentSentence?.text===s.text?' active':'');const left=document.createElement('div');left.innerHTML=`<div class="sentence-text"></div><div class="sentence-meta"><span class="pill">${s.tag}</span><span class="pill green">새 글자 ${s.need}자</span><span>${done}/${total}자 저장</span>${sentenceDone(s.text)?'<span class="pill green">완료</span>':''}</div><div class="mini-progress"><span style="width:${total?done/total*100:0}%"></span></div>`;left.querySelector('.sentence-text').textContent=s.text;const btn=document.createElement('button');btn.className='btn '+(s.need?'btn-primary':'btn-quiet')+' btn-small';btn.textContent=s.need?'이 문장 쓰기':'다시 보기';btn.onclick=()=>startSentence(s);card.append(left,btn);list.append(card);}}
+    function renderAnalysis(text){const a=analyse(text);const groups=[['초성',a.onsets],['중성',a.medials],['받침',a.codas]];$('analysis').innerHTML='<div class="analysis-title">문장에서 찾은 자음과 모음</div>'+groups.map(([label,arr])=>`<div class="analysis-row"><b>${label}</b><div class="chips">${arr.map(c=>`<span class="chip">${c}</span>`).join('')||'<span class="field-hint">없음</span>'}</div></div>`).join('');}
+    function startSentence(s){currentSentence=s;currentChars=hangulChars(s.text);$('practiceSection').hidden=false;$('activeSentence').textContent=s.text;renderAnalysis(s.text);renderGlyphs();$('practiceSection').scrollIntoView({behavior:'smooth',block:'start'});renderSentences();}
+    function renderGlyphs(){const line=$('practiceLine');line.innerHTML='';for(const ch of currentChars){const b=document.createElement('button');b.className='glyph-card'+(state.samples[ch]?.length?' done':'')+(activeGlyph===ch?' current':'');b.textContent=ch;b.title=state.samples[ch]?.length?`${ch} 저장됨. 눌러 다시 쓸 수 있어요.`:`${ch} 쓰기`;b.onclick=()=>openEditor(ch);line.append(b);}const n=currentChars.filter(ch=>state.samples[ch]?.length).length;$('glyphProgress').textContent=`${n}/${currentChars.length} 글자 저장`;updateProgress();}
+    function openEditor(ch){activeGlyph=ch;workingStrokes=JSON.parse(JSON.stringify(state.samples[ch]||[]));$('editingGlyph').textContent=ch;$('editor').hidden=false;drawPad();renderGlyphs();}
+    function closeEditor(){activeGlyph=null;$('editor').hidden=true;renderGlyphs();}
+    function drawPad(){const c=$('pad'),ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#365c4a';ctx.lineWidth=22;for(const stroke of workingStrokes){if(!stroke.length)continue;ctx.beginPath();ctx.moveTo(stroke[0][0]*c.width,stroke[0][1]*c.height);for(let i=1;i<stroke.length;i++)ctx.lineTo(stroke[i][0]*c.width,stroke[i][1]*c.height);ctx.stroke();if(stroke.length===1){ctx.beginPath();ctx.arc(stroke[0][0]*c.width,stroke[0][1]*c.height,11,0,Math.PI*2);ctx.fillStyle='#365c4a';ctx.fill();}}}
+    const pad=$('pad');let drawing=false;
+    pad.addEventListener('pointerdown',e=>{drawing=true;pad.setPointerCapture(e.pointerId);workingStrokes.push([]);addPoint(e);});
+    pad.addEventListener('pointermove',e=>{if(drawing)addPoint(e);});
+    function endStroke(){if(drawing){drawing=false;drawPad();}}
+    pad.addEventListener('pointerup',endStroke);pad.addEventListener('pointercancel',endStroke);
+    function addPoint(e){const r=pad.getBoundingClientRect();const p=workingStrokes[workingStrokes.length-1];p.push([Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))]);drawPad();}
+    $('undoStroke').onclick=()=>{workingStrokes.pop();drawPad();};$('clearPad').onclick=()=>{workingStrokes=[];drawPad();};$('closeEditor').onclick=closeEditor;$('skipGlyph').onclick=()=>{if(!currentChars.length)return;const i=currentChars.indexOf(activeGlyph);openEditor(currentChars[(i+1)%currentChars.length]);};
+    $('saveGlyph').onclick=()=>{if(!workingStrokes.length){$('fontStatus').textContent='먼저 글자를 칸 안에 써 주세요.';$('fontStatus').classList.add('error');return;}state.samples[activeGlyph]=workingStrokes;saveState();$('fontStatus').classList.remove('error');$('fontStatus').textContent=`‘${activeGlyph}’ 글자를 저장했어요.`;if(currentSentence&&sentenceDone(currentSentence.text)){renderSentences();}const i=currentChars.indexOf(activeGlyph);const next=currentChars.slice(i+1).find(ch=>!state.samples[ch]?.length);renderGlyphs();if(next)openEditor(next);else closeEditor();renderSentences();};
+    $('addText').onclick=()=>{const text=$('customText').value.trim().normalize('NFC');if(!hangulChars(text).length){$('customText').focus();return;}if(!state.custom.includes(text))state.custom.unshift(text);saveState();renderSentences();$('customText').value='';};
+    $('refreshList').onclick=renderSentences;
+    $('fontName').value=state.fontName||'나의 손글씨';$('fontName').addEventListener('input',e=>{state.fontName=e.target.value;saveState();});
+    function addCircle(path,cx,cy,r){const k=.5522847498*r;path.moveTo(cx+r,cy);path.bezierCurveTo(cx+r,cy+k,cx+k,cy+r,cx,cy+r);path.bezierCurveTo(cx-k,cy+r,cx-r,cy+k,cx-r,cy);path.bezierCurveTo(cx-r,cy-k,cx-k,cy-r,cx,cy-r);path.bezierCurveTo(cx+k,cy-r,cx+r,cy-k,cx+r,cy);path.close();}
+    function addQuad(path,a,b,r){const dx=b[0]-a[0],dy=b[1]-a[1],len=Math.hypot(dx,dy)||1,nx=-dy/len*r,ny=dx/len*r;path.moveTo(a[0]+nx,a[1]+ny);path.lineTo(b[0]+nx,b[1]+ny);path.lineTo(b[0]-nx,b[1]-ny);path.lineTo(a[0]-nx,a[1]-ny);path.close();}
+    function makeGlyphPath(strokes){const path=new opentype.Path();for(const stroke of strokes){const pts=stroke.map(([x,y])=>[100+x*760,900-y*760]);if(!pts.length)continue;if(pts.length===1){addCircle(path,pts[0][0],pts[0][1],27);continue;}for(let i=1;i<pts.length;i++){addQuad(path,pts[i-1],pts[i],25);addCircle(path,pts[i-1][0],pts[i-1][1],25);if(i===pts.length-1)addCircle(path,pts[i][0],pts[i][1],25);}}return path;}
+    function createFont(){if(!window.opentype){$('fontStatus').textContent='폰트 도구를 불러오지 못했어요. 인터넷 연결을 확인한 뒤 다시 눌러 주세요.';$('fontStatus').classList.add('error');return null;}const chars=Object.keys(state.samples).filter(ch=>state.samples[ch]?.length&&/[가-힣]/.test(ch));if(!chars.length)return null;const notdef=new opentype.Glyph({name:'.notdef',unicode:0,advanceWidth:1000,path:new opentype.Path()});const space=new opentype.Glyph({name:'space',unicode:32,advanceWidth:360,path:new opentype.Path()});const glyphs=[notdef,space,...chars.map(ch=>new opentype.Glyph({name:'uni'+ch.codePointAt(0).toString(16).toUpperCase(),unicode:ch.codePointAt(0),advanceWidth:1000,path:makeGlyphPath(state.samples[ch])}))];return new opentype.Font({familyName:(state.fontName||'나의 손글씨').trim()||'나의 손글씨',styleName:'Regular',unitsPerEm:1000,ascender:900,descender:-100,glyphs});}
+    $('makeFont').onclick=()=>{try{const font=createFont();if(!font)return;$('fontStatus').classList.remove('error');const buffer=font.toArrayBuffer();const blob=new Blob([buffer],{type:'font/ttf'});const url=URL.createObjectURL(blob);const family='myhand_'+Date.now();const style=document.createElement('style');style.textContent=`@font-face{font-family:${JSON.stringify(family)};src:url(${JSON.stringify(url)}) format('truetype')}`;document.head.append(style);$('previewText').style.fontFamily=`"${family}",var(--sans)`;const preview=hangulChars(currentSentence?.text||state.custom[0]||practiceSentences[0].text).join('');$('previewText').textContent=preview||'저장한 글씨가 여기에 보여요.';const a=document.createElement('a');a.href=url;const safe=(state.fontName||'my-handwriting').trim().replace(/[\\/:*?"<>|]/g,'-').replace(/\s+/g,'-')||'my-handwriting';a.download=safe+'.ttf';a.click();$('fontStatus').textContent=`${Object.keys(state.samples).length}개의 손글씨 글자가 들어 있는 폰트 파일을 내려받았어요.`;}catch(e){$('fontStatus').textContent='폰트 파일을 만들지 못했어요. 글자를 다시 저장하고 시도해 주세요.';$('fontStatus').classList.add('error');}};
+    renderSentences();updateProgress();
+  </script>
+</body>
+</html>
